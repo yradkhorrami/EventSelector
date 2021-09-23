@@ -7,7 +7,7 @@
 #include "IMPL/LCCollectionVec.h"
 #include "UTIL/LCRelationNavigator.h"
 #include <EVENT/MCParticle.h>
-#include <IMPL/ReconstructedParticle.h>
+#include "EVENT/ReconstructedParticle.h"
 #include <IMPL/ReconstructedParticleImpl.h>
 #include <string>
 #include <vector>
@@ -44,14 +44,55 @@ private:
 	std::string				m_inputPfoCollection{};
 	std::string				m_inputJetCollection{};
 	std::string				m_inputIsoLepCollection{};
+	std::string				m_outputPfoCollection{};
+	std::string				m_outputIsolepCollection{};
+	std::string				m_physicsProcessCollection{};
 
-	bool					m_includbJets = true;
-	bool					m_includcJets = true;
-	bool					m_includgJets = true;
-	bool					m_includOthers = true;
-	bool					m_includbJets = true;
-	bool					m_includcJets = true;
-	bool					m_includgJets = true;
-	bool					m_includOthers = true;
+	int					m_nRun;
+	int					m_nEvt;
+	int					m_nRunSum;
+	int					m_nEvtSum;
+
+	bool					m_includHbb = true;
+	bool					m_includHcc = true;
+	bool					m_includHss = true;
+	bool					m_includHuu = true;
+	bool					m_includHdd = true;
+	bool					m_includHgg = true;
+	bool					m_includHee = true;
+	bool					m_includHmumu = true;
+	bool					m_includHtautau = true;
+	bool					m_includHnu1nu1 = true;
+	bool					m_includHnu2nu2 = true;
+	bool					m_includHnu3nu3 = true;
+	bool					m_includHgammagamma = true;
+	bool					m_includHWW = true;
+	bool					m_includHZZ = true;
+	bool					m_includHHH = true;
+	bool					m_includHother = true;
+	bool					m_includZe1e1 = true;
+	bool					m_includZe2e2 = true;
+	bool					m_includZe3e3 = true;
+
+	int					m_Hq1q1 = 0;
+	int					m_Hq2q2 = 0;
+	int					m_Hq3q3 = 0;
+	int					m_Hq4q4 = 0;
+	int					m_Hq5q5 = 0;
+	int					m_Hgg = 0;
+	int					m_He1e1 = 0;
+	int					m_He2e2 = 0;
+	int					m_He3e3 = 0;
+	int					m_Hn1n1 = 0;
+	int					m_Hn2n2 = 0;
+	int					m_Hn3n3 = 0;
+	int					m_Haa = 0;
+	int					m_HWW = 0;
+	int					m_HZZ = 0;
+	int					m_HHH = 0;
+	int					m_Hother = 0;
+	int					m_Ze1e1 = 0;
+	int					m_Ze2e2 = 0;
+	int					m_Ze3e3 = 0;
 };
 #endif
