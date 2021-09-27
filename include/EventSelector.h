@@ -9,6 +9,8 @@
 #include <EVENT/MCParticle.h>
 #include "EVENT/ReconstructedParticle.h"
 #include <IMPL/ReconstructedParticleImpl.h>
+#include "IMPL/ParticleIDImpl.h"
+#include "UTIL/PIDHandler.h"
 #include <string>
 #include <vector>
 #include <math.h>
@@ -32,6 +34,7 @@ public:
 	virtual void Clear();
 	virtual void processRunHeader();
 	virtual void processEvent( EVENT::LCEvent *pLCEvent );
+	int isDecayedTo( const EVENT::LCCollection *MCParticleCollection , int parentPDG , int daughtersPDG );
  	virtual void check( EVENT::LCEvent *pLCEvent );
 	virtual void end();
 private:
@@ -73,6 +76,9 @@ private:
 	bool					m_includZe1e1 = true;
 	bool					m_includZe2e2 = true;
 	bool					m_includZe3e3 = true;
+	int					m_nJets = 0;
+	int					m_nIsoLeps = 0;
+	double					m_diLepInvMass = 91.2;
 
 	int					m_Hq1q1 = 0;
 	int					m_Hq2q2 = 0;
@@ -94,5 +100,6 @@ private:
 	int					m_Ze1e1 = 0;
 	int					m_Ze2e2 = 0;
 	int					m_Ze3e3 = 0;
+	int					m_useEvent = 0;
 };
 #endif
