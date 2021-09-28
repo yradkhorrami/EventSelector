@@ -34,7 +34,8 @@ public:
 	virtual void Clear();
 	virtual void processRunHeader();
 	virtual void processEvent( EVENT::LCEvent *pLCEvent );
-	int isDecayedTo( const EVENT::LCCollection *MCParticleCollection , int parentPDG , int daughtersPDG );
+	int isZHDecayedTo( const EVENT::LCCollection *MCParticleCollection , int parentPDG , int daughtersPDG , int &daughter1index , int &daughter2index );
+	int isZDecayedTo( const EVENT::LCCollection *MCParticleCollection , int parentPDG , int daughtersPDG , int daughter1index , int daughter2index );
  	virtual void check( EVENT::LCEvent *pLCEvent );
 	virtual void end();
 private:
@@ -49,7 +50,7 @@ private:
 	std::string				m_inputIsoLepCollection{};
 	std::string				m_outputPfoCollection{};
 	std::string				m_outputIsolepCollection{};
-	std::string				m_physicsProcessCollection{};
+	std::string				m_ZHdecayMode{};
 
 	int					m_nRun;
 	int					m_nEvt;

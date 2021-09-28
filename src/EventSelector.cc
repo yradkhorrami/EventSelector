@@ -66,7 +66,7 @@ EventSelector::EventSelector():
 					"outputPfoCollection",
 					"Name of output pfo collection",
 					m_outputPfoCollection,
-					std::string("declusteredJetPlusFakeIsolep")
+					std::string("declusteredJetPlusUnTaggedIsolep")
 				);
 
 	registerOutputCollection(	LCIO::RECONSTRUCTEDPARTICLE,
@@ -77,10 +77,10 @@ EventSelector::EventSelector():
 				);
 
 	registerOutputCollection(	LCIO::MCPARTICLE,
-					"physicsProcessCollection",
+					"decayModeCollection",
 					"Name of Physics Process collection",
-					m_physicsProcessCollection,
-					std::string("physicsProcessCollection")
+					m_ZHdecayMode,
+					std::string("ZHdecayMode")
 				);
 
 	registerProcessorParameter(	"includHbb",
@@ -428,56 +428,57 @@ void EventSelector::processEvent( EVENT::LCEvent *pLCEvent )
 		}
 
 
-
-		m_HHH = isDecayedTo( MCParticleCollection , 25 , 25 );
-		m_HZZ = isDecayedTo( MCParticleCollection , 25 , 23 );
-		m_HWW = isDecayedTo( MCParticleCollection , 25 , 24 );
-		m_Hq5q5 = isDecayedTo( MCParticleCollection , 25 , 5 );
-		m_Hq4q4 = isDecayedTo( MCParticleCollection , 25 , 4 );
-		m_Hq3q3 = isDecayedTo( MCParticleCollection , 25 , 3 );
-		m_Hq2q2 = isDecayedTo( MCParticleCollection , 25 , 2 );
-		m_Hq1q1 = isDecayedTo( MCParticleCollection , 25 , 1 );
-		m_Hgg = isDecayedTo( MCParticleCollection , 25 , 21 );
-		m_He1e1 = isDecayedTo( MCParticleCollection , 25 , 11 );
-		m_He2e2 = isDecayedTo( MCParticleCollection , 25 , 13 );
-		m_He3e3 = isDecayedTo( MCParticleCollection , 25 , 15 );
-		m_Hn1n1 = isDecayedTo( MCParticleCollection , 25 , 12 );
-		m_Hn2n2 = isDecayedTo( MCParticleCollection , 25 , 14 );
-		m_Hn3n3 = isDecayedTo( MCParticleCollection , 25 , 16 );
-		m_Haa = isDecayedTo( MCParticleCollection , 25 , 22 );
+		int daughter1index = -1;
+		int daughter2index = -1;
+		m_HHH = isZHDecayedTo( MCParticleCollection , 25 , 25 , daughter1index , daughter2index ) || isZHDecayedTo( MCParticleCollection , 23 , 25 , daughter1index , daughter2index );
+		m_HZZ = isZHDecayedTo( MCParticleCollection , 25 , 23 , daughter1index , daughter2index ) || isZHDecayedTo( MCParticleCollection , 23 , 23 , daughter1index , daughter2index );
+		m_HWW = isZHDecayedTo( MCParticleCollection , 25 , 24 , daughter1index , daughter2index ) || isZHDecayedTo( MCParticleCollection , 23 , 24 , daughter1index , daughter2index );
+		m_Hq5q5 = isZHDecayedTo( MCParticleCollection , 25 , 5 , daughter1index , daughter2index ) || isZHDecayedTo( MCParticleCollection , 23 , 5 , daughter1index , daughter2index );
+		m_Hq4q4 = isZHDecayedTo( MCParticleCollection , 25 , 4 , daughter1index , daughter2index ) || isZHDecayedTo( MCParticleCollection , 23 , 4 , daughter1index , daughter2index );
+		m_Hq3q3 = isZHDecayedTo( MCParticleCollection , 25 , 3 , daughter1index , daughter2index ) || isZHDecayedTo( MCParticleCollection , 23 , 3 , daughter1index , daughter2index );
+		m_Hq2q2 = isZHDecayedTo( MCParticleCollection , 25 , 2 , daughter1index , daughter2index ) || isZHDecayedTo( MCParticleCollection , 23 , 2 , daughter1index , daughter2index );
+		m_Hq1q1 = isZHDecayedTo( MCParticleCollection , 25 , 1 , daughter1index , daughter2index ) || isZHDecayedTo( MCParticleCollection , 23 , 1 , daughter1index , daughter2index );
+		m_Hgg = isZHDecayedTo( MCParticleCollection , 25 , 21 , daughter1index , daughter2index ) || isZHDecayedTo( MCParticleCollection , 23 , 21 , daughter1index , daughter2index );
+		m_He1e1 = isZHDecayedTo( MCParticleCollection , 25 , 11 , daughter1index , daughter2index ) || isZHDecayedTo( MCParticleCollection , 23 , 11 , daughter1index , daughter2index );
+		m_He2e2 = isZHDecayedTo( MCParticleCollection , 25 , 13 , daughter1index , daughter2index ) || isZHDecayedTo( MCParticleCollection , 23 , 13 , daughter1index , daughter2index );
+		m_He3e3 = isZHDecayedTo( MCParticleCollection , 25 , 15 , daughter1index , daughter2index ) || isZHDecayedTo( MCParticleCollection , 23 , 15 , daughter1index , daughter2index );
+		m_Hn1n1 = isZHDecayedTo( MCParticleCollection , 25 , 12 , daughter1index , daughter2index ) || isZHDecayedTo( MCParticleCollection , 23 , 12 , daughter1index , daughter2index );
+		m_Hn2n2 = isZHDecayedTo( MCParticleCollection , 25 , 14 , daughter1index , daughter2index ) || isZHDecayedTo( MCParticleCollection , 23 , 14 , daughter1index , daughter2index );
+		m_Hn3n3 = isZHDecayedTo( MCParticleCollection , 25 , 16 , daughter1index , daughter2index ) || isZHDecayedTo( MCParticleCollection , 23 , 16 , daughter1index , daughter2index );
+		m_Haa = isZHDecayedTo( MCParticleCollection , 25 , 22 , daughter1index , daughter2index ) || isZHDecayedTo( MCParticleCollection , 23 , 22 , daughter1index , daughter2index );
 		int totalHDecays = m_HHH + m_HZZ + m_HWW + m_Hq5q5 + m_Hq4q4 + m_Hq3q3 + m_Hq2q2 + m_Hq1q1 + m_Hgg + m_He1e1 + m_He2e2 + m_He3e3 + m_Hn1n1 + m_Hn2n2 + m_Hn3n3 + m_Haa;
 		if ( totalHDecays == 0 ) m_Hother = 1;
-		m_Ze1e1 = isDecayedTo( MCParticleCollection , 23 , 11 );
-		m_Ze2e2 = isDecayedTo( MCParticleCollection , 23 , 13 );
-		m_Ze3e3 = isDecayedTo( MCParticleCollection , 23 , 15 );
+		m_Ze1e1 = isZDecayedTo( MCParticleCollection , 23 , 11 , daughter1index , daughter2index );
+		m_Ze2e2 = isZDecayedTo( MCParticleCollection , 23 , 13 , daughter1index , daughter2index );
+		m_Ze3e3 = isZDecayedTo( MCParticleCollection , 23 , 15 , daughter1index , daughter2index );
 
 		askedDecayMode = ( ( m_HHH && m_includHHH ) || ( m_HZZ && m_includHZZ ) || ( m_HWW && m_includHWW ) || ( m_Hq5q5 && m_includHbb ) || ( m_Hq4q4 && m_includHcc ) || ( m_Hq3q3 && m_includHss ) || ( m_Hq2q2 && m_includHuu ) || ( m_Hq1q1 && m_includHdd ) || ( m_Hgg && m_includHgg ) || ( m_He1e1 && m_includHee ) || ( m_He2e2 && m_includHmumu ) || ( m_He3e3 && m_includHtautau ) || ( m_Hn1n1 && m_includHnu1nu1 ) || ( m_Hn2n2 && m_includHnu2nu2 ) || ( m_Hn3n3 && m_includHnu3nu3 ) || ( m_Haa && m_includHgammagamma ) || ( m_Hother && m_includHother ) );
 		m_useEvent = ( askedDecayMode && trueNJets && trueNIsoLeps ? 1 : 0 );
 
 
-		m_PhysProcCol->parameters().setValue( "Hdd" , ( int )m_Hq1q1 );
-		m_PhysProcCol->parameters().setValue( "Huu" , ( int )m_Hq2q2 );
-		m_PhysProcCol->parameters().setValue( "Hss" , ( int )m_Hq3q3 );
-		m_PhysProcCol->parameters().setValue( "Hcc" , ( int )m_Hq4q4 );
-		m_PhysProcCol->parameters().setValue( "Hbb" , ( int )m_Hq5q5 );
-		m_PhysProcCol->parameters().setValue( "Hgg" , ( int )m_Hgg );
-		m_PhysProcCol->parameters().setValue( "Hee" , ( int )m_He1e1 );
-		m_PhysProcCol->parameters().setValue( "Hmumu" , ( int )m_He2e2 );
-		m_PhysProcCol->parameters().setValue( "Htautau" , ( int )m_He3e3 );
-		m_PhysProcCol->parameters().setValue( "Hnu1nu1" , ( int )m_Hn1n1 );
-		m_PhysProcCol->parameters().setValue( "Hnu2nu2" , ( int )m_Hn2n2 );
-		m_PhysProcCol->parameters().setValue( "Hnu3nu3" , ( int )m_Hn3n3 );
-		m_PhysProcCol->parameters().setValue( "Hgammagamma" , ( int )m_Haa );
-		m_PhysProcCol->parameters().setValue( "HWW" , ( int )m_HWW );
-		m_PhysProcCol->parameters().setValue( "HZZ" , ( int )m_HZZ );
-		m_PhysProcCol->parameters().setValue( "HHH" , ( int )m_HHH );
-		m_PhysProcCol->parameters().setValue( "Hother" , ( int )m_Hother );
+		m_PhysProcCol->parameters().setValue( "ZHdd" , ( int )m_Hq1q1 );
+		m_PhysProcCol->parameters().setValue( "ZHuu" , ( int )m_Hq2q2 );
+		m_PhysProcCol->parameters().setValue( "ZHss" , ( int )m_Hq3q3 );
+		m_PhysProcCol->parameters().setValue( "ZHcc" , ( int )m_Hq4q4 );
+		m_PhysProcCol->parameters().setValue( "ZHbb" , ( int )m_Hq5q5 );
+		m_PhysProcCol->parameters().setValue( "ZHgg" , ( int )m_Hgg );
+		m_PhysProcCol->parameters().setValue( "ZHee" , ( int )m_He1e1 );
+		m_PhysProcCol->parameters().setValue( "ZHmumu" , ( int )m_He2e2 );
+		m_PhysProcCol->parameters().setValue( "ZHtautau" , ( int )m_He3e3 );
+		m_PhysProcCol->parameters().setValue( "ZHnu1nu1" , ( int )m_Hn1n1 );
+		m_PhysProcCol->parameters().setValue( "ZHnu2nu2" , ( int )m_Hn2n2 );
+		m_PhysProcCol->parameters().setValue( "ZHnu3nu3" , ( int )m_Hn3n3 );
+		m_PhysProcCol->parameters().setValue( "ZHgammagamma" , ( int )m_Haa );
+		m_PhysProcCol->parameters().setValue( "ZHWW" , ( int )m_HWW );
+		m_PhysProcCol->parameters().setValue( "ZHZZ" , ( int )m_HZZ );
+		m_PhysProcCol->parameters().setValue( "ZHHH" , ( int )m_HHH );
+		m_PhysProcCol->parameters().setValue( "ZHother" , ( int )m_Hother );
 		m_PhysProcCol->parameters().setValue( "Zee" , ( int )m_Ze1e1 );
 		m_PhysProcCol->parameters().setValue( "Zmumu" , ( int )m_Ze2e2 );
 		m_PhysProcCol->parameters().setValue( "Ztautau" , ( int )m_Ze3e3 );
 		m_PhysProcCol->parameters().setValue( "useEvent" , ( int )m_useEvent );
 
-		pLCEvent->addCollection( m_PhysProcCol , m_physicsProcessCollection );
+		pLCEvent->addCollection( m_PhysProcCol , m_ZHdecayMode );
 		pLCEvent->addCollection( m_IsolepCol , m_outputIsolepCollection );
 		pLCEvent->addCollection( m_NewPFOsCol , m_outputPfoCollection );
 	}
@@ -488,7 +489,7 @@ void EventSelector::processEvent( EVENT::LCEvent *pLCEvent )
         }
 }
 
-int EventSelector::isDecayedTo( const EVENT::LCCollection *MCParticleCollection , int parentPDG , int daughtersPDG )
+int EventSelector::isZHDecayedTo( const EVENT::LCCollection *MCParticleCollection , int parentPDG , int daughtersPDG , int &daughter1index , int &daughter2index )
 {
 	int elementFrom = 8;
 	int elementTo = 20;
@@ -503,23 +504,78 @@ int EventSelector::isDecayedTo( const EVENT::LCCollection *MCParticleCollection 
 			for ( unsigned int i_parent = 0 ; i_parent < daughter1->getParents().size() ; ++i_parent )
 			{
 				const EVENT::MCParticle *parent = daughter1->getParents()[ i_parent ];
-				if ( parentPDG == 25 )
+				if ( parent->getPDG() == parentPDG )
 				{
-					if ( parent->getPDG() == d1PDG )
+					for ( unsigned int i_d2 = 0 ; i_d2 < parent->getDaughters().size() ; ++i_d2 )
 					{
-						for ( unsigned int i_d2 = 0 ; i_d2 < parent->getDaughters().size() ; ++i_d2 )
+						const EVENT::MCParticle *daughter2 = parent->getDaughters()[ i_d2 ];
+						if ( daughter2 != daughter1 && daughter2->getPDG() == d2PDG )
 						{
-							const EVENT::MCParticle *daughter2 = parent->getDaughters()[ i_d2 ];
-							if ( daughter2 != daughter1 && daughter2->getPDG() == d2PDG ) isDecaydToDaughter = 1;
+							isDecaydToDaughter = 1;
+							daughter1index = i_d1;
+							for ( int i_d = elementFrom ; i_d < elementTo ; ++i_d )
+							{
+								const EVENT::MCParticle *testMCP = dynamic_cast<EVENT::MCParticle*>( MCParticleCollection->getElementAt( i_d ) );
+								if ( testMCP == daughter2 ) daughter2index = i_d;
+							}
+							return isDecaydToDaughter;
 						}
 					}
 				}
+
+
 				else if ( parent->getPDG() != 25 )
 				{
 					for ( unsigned int i_d2 = 0 ; i_d2 < parent->getDaughters().size() ; ++i_d2 )
 					{
 						const EVENT::MCParticle *daughter2 = parent->getDaughters()[ i_d2 ];
 						if ( daughter2 != daughter1 && daughter2->getPDG() == d2PDG ) isDecaydToDaughter = 1;
+					}
+				}
+			}
+		}
+	}
+	return isDecaydToDaughter;
+}
+
+int EventSelector::isZDecayedTo( const EVENT::LCCollection *MCParticleCollection , int parentPDG , int daughtersPDG , int daughter1index , int daughter2index )
+{
+	int elementFrom = 8;
+	int elementTo = 20;
+	int isDecaydToDaughter = 0;
+	int d1PDG = abs( daughtersPDG );
+	int d2PDG = ( abs( daughtersPDG ) < 20 ? -1 * d1PDG : d1PDG );
+	for ( int i_d1 = elementFrom ; i_d1 < elementTo ; ++i_d1 )
+	{
+		const EVENT::MCParticle *daughter1 = dynamic_cast<EVENT::MCParticle*>( MCParticleCollection->getElementAt( i_d1 ) );
+		if ( daughter1->getPDG() == d1PDG && i_d1 != daughter1index && i_d1 != daughter2index )
+		{
+			if ( daughter1->getParents().size() == 2 && abs( ( daughter1->getParents()[ 0 ] )->getPDG() ) == 11 && ( daughter1->getParents()[ 0 ] )->getPDG() == -1 * ( daughter1->getParents()[ 1 ] )->getPDG() )
+			{
+				const EVENT::MCParticle *parent = daughter1->getParents()[ 0 ];
+				for ( unsigned int i_d2 = 0 ; i_d2 < parent->getDaughters().size() ; ++i_d2 )
+				{
+					const EVENT::MCParticle *daughter2 = parent->getDaughters()[ i_d2 ];
+					if ( daughter2 != daughter1 && daughter2->getPDG() == d2PDG )
+					{
+						isDecaydToDaughter = 1;
+						return isDecaydToDaughter;
+					}
+				}
+			}
+			else if ( daughter1->getParents().size() == 1 )
+			{
+				const EVENT::MCParticle *parent = daughter1->getParents()[ 0 ];
+				if ( parent->getPDG() == parentPDG )
+				{
+					for ( unsigned int i_d2 = 0 ; i_d2 < parent->getDaughters().size() ; ++i_d2 )
+					{
+						const EVENT::MCParticle *daughter2 = parent->getDaughters()[ i_d2 ];
+						if ( daughter2 != daughter1 && daughter2->getPDG() == d2PDG )
+						{
+							isDecaydToDaughter = 1;
+							return isDecaydToDaughter;
+						}
 					}
 				}
 			}
