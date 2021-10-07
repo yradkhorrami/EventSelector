@@ -16,6 +16,10 @@
 #include <math.h>
 #include <set>
 #include "TLorentzVector.h"
+class TFile;
+class TH1F;
+class TH1I;
+class TTree;
 using namespace lcio ;
 using namespace marlin ;
 
@@ -51,11 +55,13 @@ private:
 	std::string				m_outputPfoCollection{};
 	std::string				m_outputIsolepCollection{};
 	std::string				m_ZHdecayMode{};
+	std::string				m_rootFile{};
 
 	int					m_nRun;
 	int					m_nEvt;
 	int					m_nRunSum;
 	int					m_nEvtSum;
+	bool					m_fillRootTree = true;
 
 	bool					m_includHbb = true;
 	bool					m_includHcc = true;
@@ -98,9 +104,17 @@ private:
 	int					m_HZZ = 0;
 	int					m_HHH = 0;
 	int					m_Hother = 0;
+	int					m_totalHDecays = 0;
 	int					m_Ze1e1 = 0;
 	int					m_Ze2e2 = 0;
 	int					m_Ze3e3 = 0;
 	int					m_useEvent = 0;
+
+	TFile					*m_pTFile{};
+	TTree					*m_pTTree{};
+	TH1I					*h_ZHDecayMode{};
+	int					n_ZHDecays = 0;
+	TH1I					*h_ZDecayMode{};
+	int					n_ZDecays = 0;
 };
 #endif
